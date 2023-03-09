@@ -55,7 +55,30 @@ export function get_score(gameState) {
     if (colSame && first === 1) return 1;
     if (colSame && first === -1) return -1;
   }
+
   // check diagnols
+
+  // primary diagnol
+  let first = gameState[xy_to_index(0, 0)];
+  let primaryDiagnolSame = true;
+
+  for (let i = 0; i < 3; i++) {
+    if (gameState[xy_to_index(i, i)] !== first) primaryDiagnolSame = false;
+  }
+  if (primaryDiagnolSame && first === 1) return 1;
+  if (primaryDiagnolSame && first === -1) return -1;
+
+  // secondary diagnol
+  first = gameState[xy_to_index(0, 2)];
+  let secondaryDiagnolSame = true;
+
+  for (let i = 0; i < 3; i++) {
+    if (gameState[xy_to_index(i, 3 - 1 - i)] !== first)
+      secondaryDiagnolSame = false;
+  }
+  if (secondaryDiagnolSame && first === 1) return 1;
+  if (secondaryDiagnolSame && first === -1) return -1;
+
   return 0;
 }
 
@@ -101,5 +124,27 @@ export const is_winning_state = (gameState) => {
     if (colSame) return true;
   }
   // check diagnols
+
+  // primary diagnol
+  let first = gameState[xy_to_index(0, 0)];
+  let primaryDiagnolSame = true;
+
+  for (let i = 0; i < 3; i++) {
+    if (gameState[xy_to_index(i, i)] !== first) primaryDiagnolSame = false;
+  }
+  if (first && primaryDiagnolSame) return true;
+
+  // secondary diagnol
+  first = gameState[xy_to_index(0, 2)];
+  let secondaryDiagnolSame = true;
+
+  for (let i = 0; i < 3; i++) {
+    // console.log("Secondary diagnol: ", i, 3 - 1 - i, xy_to_index(i, 3 - 1 - i));
+    if (gameState[xy_to_index(i, 3 - 1 - i)] !== first)
+      secondaryDiagnolSame = false;
+  }
+
+  if (first && secondaryDiagnolSame) return true;
+
   return false;
 };
